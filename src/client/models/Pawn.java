@@ -23,6 +23,18 @@ public class Pawn extends ChessPiece
     {
         super.setPos(super.getvPos()+1, super.gethPos()+1);
     }
+
+    public void moveDown() {
+        super.setPos(super.getvPos() - 1, super.gethPos());
+    }
+    public void moveDownLeft()
+    {
+        super.setPos(super.getvPos()-1, super.gethPos()-1);
+    }
+    public void moveDownRight()
+    {
+        super.setPos(super.getvPos()-1, super.gethPos()+1);
+    }
     @Override
     public void moveUp(int move) {
         throw new UnsupportedOperationException("Not supported for this piece");

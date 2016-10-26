@@ -270,11 +270,219 @@ public class Board
         }
     }
 
+    private void moveBlackSolid(ChessPiece.pieces piece, ChessPiece.direction dir, int pieceID)//positions inverted
+    {
+        int res;
+        switch (piece)
+        {
+            case knight:
+                switch (dir)
+                {
+
+                    case upleft:
+                        res = searchBlack(pieceID);
+                        if (res != -1)
+                        {
+                            Knight temp = (Knight) blackPieces[res];
+                            temp.downRight();
+                            blackPieces[res] = temp;
+                        }
+                        break;
+                    case upright:
+                        res = searchBlack(pieceID);
+                        if (res != -1)
+                        {
+                            Knight temp = (Knight) blackPieces[res];
+                            temp.downLeft();
+                            blackPieces[res] = temp;
+                        }
+                        break;
+                    case leftdown:
+                        res = searchBlack(pieceID);
+                        if (res != -1)
+                        {
+                            Knight temp = (Knight) blackPieces[res];
+                            temp.rightUp();
+                            blackPieces[res] = temp;
+                        }
+                        break;
+                    case leftup:
+                        res = searchBlack(pieceID);
+                        if (res != -1)
+                        {
+                            Knight temp = (Knight) blackPieces[res];
+                            temp.rightDown();
+                            blackPieces[res] = temp;
+                        }
+                        break;
+                    case rightdown:
+                        res = searchBlack(pieceID);
+                        if (res != -1)
+                        {
+                            Knight temp = (Knight) blackPieces[res];
+                            temp.leftUp();
+                            blackPieces[res] = temp;
+                        }
+                        break;
+                    case rightup:
+                        res = searchBlack(pieceID);
+                        if (res != -1)
+                        {
+                            Knight temp = (Knight) blackPieces[res];
+                            temp.leftDown();
+                            blackPieces[res] = temp;
+                        }
+                        break;
+                    case downleft:
+                        res = searchBlack(pieceID);
+                        if (res != -1)
+                        {
+                            Knight temp = (Knight) blackPieces[res];
+                            temp.upRight();
+                            blackPieces[res] = temp;
+                        }
+                        break;
+                    case downright:
+                        res = searchBlack(pieceID);
+                        if (res != -1)
+                        {
+                            Knight temp = (Knight) blackPieces[res];
+                            temp.upLeft();
+                            blackPieces[res] = temp;
+                        }
+                        break;
+                }
+                break;
+            case pawn:
+                switch (dir)
+                {
+                    case up:
+                        res = searchBlack(pieceID);
+                        if(res!= -1)
+                        {
+                            Pawn temp = (Pawn) blackPieces[res];
+                            temp.moveDown();
+                            blackPieces[res] = temp;
+                        }
+                        break;
+                    case upleft:
+                        res = searchBlack(pieceID);
+                        if(res!= -1)
+                        {
+                            Pawn temp = (Pawn) blackPieces[res];
+                            temp.moveDownRight();
+                            blackPieces[res] = temp;
+                        }
+                        break;
+                    case upright:
+                        res = searchBlack(pieceID);
+                        if(res!= -1)
+                        {
+                            Pawn temp = (Pawn) blackPieces[res];
+                            temp.moveDownLeft();
+                            blackPieces[res] = temp;
+                        }
+                        break;
+                }
+                break;
+            case king:
+                switch (dir)
+                {
+                    case up:
+                        res = searchBlack(pieceID);
+                        if(res!= -1)
+                        {
+                            King temp = (King) blackPieces[res];
+                            temp.moveDown();
+                            blackPieces[res] = temp;
+                        }
+                        break;
+                    case upleft:
+                        res = searchBlack(pieceID);
+                        if(res!= -1)
+                        {
+                            King temp = (King) blackPieces[res];
+                            temp.downRight();
+                            blackPieces[res] = temp;
+                        }
+                        break;
+                    case upright:
+                        res = searchBlack(pieceID);
+                        if(res!= -1)
+                        {
+                            King temp = (King) blackPieces[res];
+                            temp.downLeft();
+                            blackPieces[res] = temp;
+                        }
+                        break;
+                    case left:
+                        res = searchBlack(pieceID);
+                        if(res!= -1)
+                        {
+                            King temp = (King) blackPieces[res];
+                            temp.moveRight();
+                            blackPieces[res] = temp;
+                        }
+                        break;
+                    case right:
+                        res = searchBlack(pieceID);
+                        if(res!= -1)
+                        {
+                            King temp = (King) blackPieces[res];
+                            temp.moveLeft();
+                            blackPieces[res] = temp;
+                        }
+                        break;
+                    case down:
+                        res = searchBlack(pieceID);
+                        if(res!= -1)
+                        {
+                            King temp = (King) blackPieces[res];
+                            temp.moveUp();
+                            blackPieces[res] = temp;
+                        }
+                        break;
+                    case downleft:
+                        res = searchBlack(pieceID);
+                        if(res!= -1)
+                        {
+                            King temp = (King) blackPieces[res];
+                            temp.upRight();
+                            blackPieces[res] = temp;
+                        }
+                        break;
+                    case downright:
+                        res = searchBlack(pieceID);
+                        if(res!= -1)
+                        {
+                            King temp = (King) blackPieces[res];
+                            temp.upLeft();
+                            blackPieces[res] = temp;
+                        }
+                        break;
+                }
+                break;
+        }
+    }
+
     private int searchWhite(int pieceID)
     {
         int pos;
         for (int i = 0; i < whitePieces.length; i++) {
             if(whitePieces[i].getPieceID() == pieceID)
+            {
+                pos = i;
+                return pos;
+            }
+        }
+        return -1;
+    }
+
+    private int searchBlack(int pieceID)
+    {
+        int pos;
+        for (int i = 0; i < blackPieces.length; i++) {
+            if(blackPieces[i].getPieceID() == pieceID)
             {
                 pos = i;
                 return pos;
