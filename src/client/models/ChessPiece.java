@@ -7,14 +7,14 @@ import java.util.ArrayList;
  */
 public class ChessPiece
 {
-    private enum pieces{
+    public enum pieces{
         pawn, rook, knight, bishop, queen, king
     }
-    private enum direction {
+    public enum direction {
         up, down, left, right, upleft, upright, downleft, downright
     }
     private int maxLength;
-    private ArrayList<direction> posMovements[];
+    private ArrayList<direction> posMovements;
     private pieces type;
     private int hPos;
     private int vPos;
@@ -27,13 +27,16 @@ public class ChessPiece
         return vPos;
     }
 
+    public ChessPiece() {
+    }
+
     public void setPos(int v, int h)
     {
         this.hPos = h;
         this.vPos = v;
     }
 
-    public ChessPiece(int maxLength, ArrayList<direction>[] posMovements, pieces type, int hPos, int vPos) {
+    public ChessPiece(int maxLength, ArrayList<direction> posMovements, pieces type, int hPos, int vPos) {
 
         this.maxLength = maxLength;
         this.posMovements = posMovements;
