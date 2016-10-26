@@ -180,6 +180,81 @@ public class Board
                 }
                 break;
             case king:
+                switch (dir)
+                {
+                    case up:
+                        res = searchWhite(pieceID);
+                        if(res!= -1)
+                        {
+                            King temp = (King) whitePieces[res];
+                            temp.moveUp();
+                            whitePieces[res] = temp;
+                        }
+                        break;
+                    case upleft:
+                        res = searchWhite(pieceID);
+                        if(res!= -1)
+                        {
+                            King temp = (King) whitePieces[res];
+                            temp.upLeft();
+                            whitePieces[res] = temp;
+                        }
+                        break;
+                    case upright:
+                        res = searchWhite(pieceID);
+                        if(res!= -1)
+                        {
+                            King temp = (King) whitePieces[res];
+                            temp.upRight();
+                            whitePieces[res] = temp;
+                        }
+                        break;
+                    case left:
+                        res = searchWhite(pieceID);
+                        if(res!= -1)
+                        {
+                            King temp = (King) whitePieces[res];
+                            temp.moveLeft();
+                            whitePieces[res] = temp;
+                        }
+                        break;
+                    case right:
+                        res = searchWhite(pieceID);
+                        if(res!= -1)
+                        {
+                            King temp = (King) whitePieces[res];
+                            temp.moveRight();
+                            whitePieces[res] = temp;
+                        }
+                        break;
+                    case down:
+                        res = searchWhite(pieceID);
+                        if(res!= -1)
+                        {
+                            King temp = (King) whitePieces[res];
+                            temp.moveDown();
+                            whitePieces[res] = temp;
+                        }
+                        break;
+                    case downleft:
+                        res = searchWhite(pieceID);
+                        if(res!= -1)
+                        {
+                            King temp = (King) whitePieces[res];
+                            temp.downLeft();
+                            whitePieces[res] = temp;
+                        }
+                        break;
+                    case downright:
+                        res = searchWhite(pieceID);
+                        if(res!= -1)
+                        {
+                            King temp = (King) whitePieces[res];
+                            temp.downRight();
+                            whitePieces[res] = temp;
+                        }
+                        break;
+                }
                 break;
         }
     }
