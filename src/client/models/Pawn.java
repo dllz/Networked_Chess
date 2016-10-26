@@ -11,4 +11,29 @@ public class Pawn extends ChessPiece
     public Pawn(int hPos, int vPos) {
         super(1, new ArrayList<>(Arrays.asList(direction.up, direction.upleft, direction.upright)), pieces.pawn, hPos, vPos);
     }
+
+    @Override
+    public void moveDown(int move) {
+        throw new UnsupportedOperationException("Not supported for this piece");
+    }
+
+    @Override
+    public void moveLeft(int move) {
+        throw new UnsupportedOperationException("Not supported for this piece");
+    }
+
+    @Override
+    public void moveRight(int move) {
+        throw new UnsupportedOperationException("Not supported for this piece");
+    }
+
+    @Override
+    public void moveDownLeft(int ver, int hos) {
+        throw new UnsupportedOperationException("Not supported for this piece");
+    }
+
+    @Override
+    public void moveDownRight(int ver, int hos) {
+        throw new UnsupportedOperationException("Not supported for this piece");
+    }
 }

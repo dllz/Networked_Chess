@@ -10,4 +10,24 @@ public class Rook extends ChessPiece {
     public Rook(int maxLength, ArrayList<direction> posMovements, pieces type, int hPos, int vPos) {
         super(0, new ArrayList<>(Arrays.asList(direction.up, direction.left, direction.right, direction.down)), pieces.rook, hPos, vPos);
     }
+
+    @Override
+    public void moveUpLeft(int ver, int hos) {
+        throw new UnsupportedOperationException("Not supported for this piece");
+    }
+
+    @Override
+    public void moveUpRight(int ver, int hos) {
+        throw new UnsupportedOperationException("Not supported for this piece");
+    }
+
+    @Override
+    public void moveDownLeft(int ver, int hos) {
+        throw new UnsupportedOperationException("Not supported for this piece");
+    }
+
+    @Override
+    public void moveDownRight(int ver, int hos) {
+        throw new UnsupportedOperationException("Not supported for this piece");
+    }
 }
