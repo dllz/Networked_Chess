@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class Knight extends ChessPiece
 {
-    public Knight(int maxLength, ArrayList<direction> posMovements, pieces type, int hPos, int vPos) {
+    public Knight(int hPos, int vPos) {
         super(0, null, pieces.knight, hPos, vPos);
     }
 

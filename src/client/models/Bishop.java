@@ -6,28 +6,29 @@ import java.util.Arrays;
 /**
  * Created by Daniel on 2016/10/26.
  */
-public class Rook extends ChessPiece {
-    public Rook(int hPos, int vPos) {
-        super(0, new ArrayList<>(Arrays.asList(direction.up, direction.left, direction.right, direction.down)), pieces.rook, hPos, vPos);
+public class Bishop extends ChessPiece
+{
+    public Bishop(int hPos, int vPos) {
+        super(0, new ArrayList<>(Arrays.asList(direction.downleft, direction.upleft, direction.upright, direction.downright)), pieces.bishop, hPos, vPos);
     }
 
     @Override
-    public void moveUpLeft(int ver, int hos) {
+    public void moveUp(int move) {
         throw new UnsupportedOperationException("Not supported for this piece");
     }
 
     @Override
-    public void moveUpRight(int ver, int hos) {
+    public void moveDown(int move) {
         throw new UnsupportedOperationException("Not supported for this piece");
     }
 
     @Override
-    public void moveDownLeft(int ver, int hos) {
+    public void moveLeft(int move) {
         throw new UnsupportedOperationException("Not supported for this piece");
     }
 
     @Override
-    public void moveDownRight(int ver, int hos) {
+    public void moveRight(int move) {
         throw new UnsupportedOperationException("Not supported for this piece");
     }
 }
