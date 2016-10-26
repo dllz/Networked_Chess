@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
+import static client.models.ChessPiece.direction.up;
+
 /**
  * Created by Daniel on 2016/10/26.
  */
@@ -269,7 +271,8 @@ public class Board
                 break;
         }
     }
-
+    //TODO Send ID not found error up
+    //TODO Check Solid Legal Move
     private void moveBlackSolid(ChessPiece.pieces piece, ChessPiece.direction dir, int pieceID)//positions inverted
     {
         int res;
@@ -463,6 +466,124 @@ public class Board
                 }
                 break;
         }
+    }
+
+    private int moveWhite(ChessPiece.pieces piece, ChessPiece.direction dir, int pieceID, int length)
+    {
+        int res = 0;
+        switch (piece)
+        {
+            case rook:
+                boolean legal = checkWhiteLegalMove(dir, res, length);
+                if (legal)
+                {
+                    switch (dir)
+                    {
+                        case up:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                whitePieces[res].moveUp(length);
+                            }
+                            break;
+                        case down:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                whitePieces[res].moveDown(length);
+                            }
+                            break;
+                        case left:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                whitePieces[res].moveLeft(length);
+                            }
+                            break;
+                        case right:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                whitePieces[res].moveRight(length);
+                            }
+                            break;
+                    }
+                }else
+                {
+                    throw new UnsupportedOperationException("MoveNotLegal");
+                }
+        }
+        return res;
+    }
+
+    private boolean checkWhiteLegalMove(ChessPiece.direction dir, int res, int length) {
+        boolean failed = false;
+        int temp;
+        int extraT;
+        switch (dir)
+        {
+            case up:
+                temp = whitePieces[res].getvPos();
+                if(temp+length < 8)
+                {
+                    return true;
+                }
+                break;
+            case down:
+                temp = whitePieces[res].getvPos();
+                if(temp-length > -1)
+                {
+                    return true;
+                }
+                break;
+            case left:
+                temp = whitePieces[res].gethPos();
+                if(temp-length > -1)
+                {
+                    return true;
+                }
+                break;
+            case right:
+                temp = whitePieces[res].gethPos();
+                if(temp+length < 8)
+                {
+                    return true;
+                }
+                break;
+            case upleft:
+                extraT = whitePieces[res].getvPos();
+                temp = whitePieces[res].gethPos();
+                if(temp-length > -1 && extraT+length < 8)
+                {
+                    return true;
+                }
+                break;
+            case upright:
+                extraT = whitePieces[res].getvPos();
+                temp = whitePieces[res].gethPos();
+                if(temp+length < 8 && extraT+length < 8)
+                {
+                    return true;
+                }
+                break;
+            case downleft:
+                extraT = whitePieces[res].getvPos();
+                temp = whitePieces[res].gethPos();
+                if(temp-length > -1 && extraT-length > -1)
+                {
+                    return true;
+                }
+                break;
+            case downright:
+                extraT = whitePieces[res].getvPos();
+                temp = whitePieces[res].gethPos();
+                if(temp+length < 8 && extraT-length > -1)
+                {
+                    return true;
+                }
+                break;
+        }
+        return failed;
     }
 
     private int searchWhite(int pieceID)
