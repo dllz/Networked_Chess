@@ -8,7 +8,7 @@ import java.util.Arrays;
  */
 public class Queen extends ChessPiece
 {
-    public Queen(int hPos, int vPos) {
-        super(0, new ArrayList<>(Arrays.asList(direction.up, direction.left, direction.right, direction.down, direction.downright, direction.downleft, direction.upleft, direction.upright)), pieces.queen, hPos, vPos);
+    public Queen(int hPos, int vPos, int pieceID) {
+        super(0, new ArrayList<>(Arrays.asList(direction.up, direction.left, direction.right, direction.down, direction.downright, direction.downleft, direction.upleft, direction.upright)), pieces.queen, hPos, vPos, pieceID);
     }
 }

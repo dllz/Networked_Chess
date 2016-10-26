@@ -18,6 +18,7 @@ public class ChessPiece
     private pieces type;
     private int hPos;
     private int vPos;
+    private int pieceID;
 
     public int gethPos() {
         return hPos;
@@ -36,13 +37,14 @@ public class ChessPiece
         this.vPos = v;
     }
 
-    public ChessPiece(int maxLength, ArrayList<direction> posMovements, pieces type, int hPos, int vPos) {
+    public ChessPiece(int maxLength, ArrayList<direction> posMovements, pieces type, int hPos, int vPos, int pieceID) {
 
         this.maxLength = maxLength;
         this.posMovements = posMovements;
         this.type = type;
         this.hPos = hPos;
         this.vPos = vPos;
+        this.pieceID = pieceID;
     }
 
     public void moveUp(int move)

@@ -38,8 +38,8 @@ public class Pawn extends ChessPiece
         throw new UnsupportedOperationException("Not supported for this piece");
     }
 
-    public Pawn(int hPos, int vPos) {
-        super(1, new ArrayList<>(Arrays.asList(direction.up, direction.upleft, direction.upright)), pieces.pawn, hPos, vPos);
+    public Pawn(int hPos, int vPos, int pieceID) {
+        super(1, new ArrayList<>(Arrays.asList(direction.up, direction.upleft, direction.upright)), pieces.pawn, hPos, vPos, pieceID);
     }
 
     @Override

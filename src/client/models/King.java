@@ -7,8 +7,8 @@ import java.util.Arrays;
  * Created by Daniel on 2016/10/26.
  */
 public class King extends ChessPiece {
-    public King(int maxLength, ArrayList<direction> posMovements, pieces type, int hPos, int vPos) {
-        super(1, new ArrayList<>(Arrays.asList(direction.up, direction.left, direction.right, direction.down, direction.downright, direction.downleft, direction.upleft, direction.upright)), pieces.king, hPos, vPos);
+    public King(int maxLength, ArrayList<direction> posMovements, pieces type, int hPos, int vPos, int pieceID) {
+        super(1, new ArrayList<>(Arrays.asList(direction.up, direction.left, direction.right, direction.down, direction.downright, direction.downleft, direction.upleft, direction.upright)), pieces.king, hPos, vPos, pieceID);
     }
 
     public void upRight()

@@ -8,8 +8,8 @@ import java.util.Arrays;
  */
 public class Bishop extends ChessPiece
 {
-    public Bishop(int hPos, int vPos) {
-        super(0, new ArrayList<>(Arrays.asList(direction.downleft, direction.upleft, direction.upright, direction.downright)), pieces.bishop, hPos, vPos);
+    public Bishop(int hPos, int vPos, int pieceID) {
+        super(0, new ArrayList<>(Arrays.asList(direction.downleft, direction.upleft, direction.upright, direction.downright)), pieces.bishop, hPos, vPos, pieceID);
     }
 
     @Override

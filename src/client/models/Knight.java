@@ -7,8 +7,8 @@ import java.util.ArrayList;
  */
 public class Knight extends ChessPiece
 {
-    public Knight(int hPos, int vPos) {
-        super(0, null, pieces.knight, hPos, vPos);
+    public Knight(int hPos, int vPos, int pieceID) {
+        super(0, null, pieces.knight, hPos, vPos, pieceID);
     }
 
     public void upLeft()
