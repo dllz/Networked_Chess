@@ -480,28 +480,28 @@ public class Board
                     switch (dir)
                     {
                         case up:
-                            res = searchBlack(pieceID);
+                            res = searchWhite(pieceID);
                             if (res != -1)
                             {
                                 whitePieces[res].moveUp(length);
                             }
                             break;
                         case down:
-                            res = searchBlack(pieceID);
+                            res = searchWhite(pieceID);
                             if (res != -1)
                             {
                                 whitePieces[res].moveDown(length);
                             }
                             break;
                         case left:
-                            res = searchBlack(pieceID);
+                            res = searchWhite(pieceID);
                             if (res != -1)
                             {
                                 whitePieces[res].moveLeft(length);
                             }
                             break;
                         case right:
-                            res = searchBlack(pieceID);
+                            res = searchWhite(pieceID);
                             if (res != -1)
                             {
                                 whitePieces[res].moveRight(length);
@@ -520,28 +520,28 @@ public class Board
                     switch (dir)
                     {
                         case upleft:
-                            res = searchBlack(pieceID);
+                            res = searchWhite(pieceID);
                             if (res != -1)
                             {
                                 whitePieces[res].moveUpLeft(length, length);
                             }
                             break;
                         case upright:
-                            res = searchBlack(pieceID);
+                            res = searchWhite(pieceID);
                             if (res != -1)
                             {
                                 whitePieces[res].moveUpRight(length, length);
                             }
                             break;
                         case downleft:
-                            res = searchBlack(pieceID);
+                            res = searchWhite(pieceID);
                             if (res != -1)
                             {
                                 whitePieces[res].moveDownLeft(length, length);
                             }
                             break;
                         case downright:
-                            res = searchBlack(pieceID);
+                            res = searchWhite(pieceID);
                             if (res != -1)
                             {
                                 whitePieces[res].moveDownRight(length, length);
@@ -560,56 +560,56 @@ public class Board
                     switch (dir)
                     {
                         case upleft:
-                            res = searchBlack(pieceID);
+                            res = searchWhite(pieceID);
                             if (res != -1)
                             {
                                 whitePieces[res].moveUpLeft(length, length);
                             }
                             break;
                         case upright:
-                            res = searchBlack(pieceID);
+                            res = searchWhite(pieceID);
                             if (res != -1)
                             {
                                 whitePieces[res].moveUpRight(length, length);
                             }
                             break;
                         case downleft:
-                            res = searchBlack(pieceID);
+                            res = searchWhite(pieceID);
                             if (res != -1)
                             {
                                 whitePieces[res].moveDownLeft(length, length);
                             }
                             break;
                         case downright:
-                            res = searchBlack(pieceID);
+                            res = searchWhite(pieceID);
                             if (res != -1)
                             {
                                 whitePieces[res].moveDownRight(length, length);
                             }
                             break;
                         case up:
-                            res = searchBlack(pieceID);
+                            res = searchWhite(pieceID);
                             if (res != -1)
                             {
                                 whitePieces[res].moveUp(length);
                             }
                             break;
                         case down:
-                            res = searchBlack(pieceID);
+                            res = searchWhite(pieceID);
                             if (res != -1)
                             {
                                 whitePieces[res].moveDown(length);
                             }
                             break;
                         case left:
-                            res = searchBlack(pieceID);
+                            res = searchWhite(pieceID);
                             if (res != -1)
                             {
                                 whitePieces[res].moveLeft(length);
                             }
                             break;
                         case right:
-                            res = searchBlack(pieceID);
+                            res = searchWhite(pieceID);
                             if (res != -1)
                             {
                                 whitePieces[res].moveRight(length);
@@ -622,6 +622,232 @@ public class Board
                 }
         }
         return res;
+    }
+
+    private int moveBlack(ChessPiece.pieces piece, ChessPiece.direction dir, int pieceID, int length)
+    {
+        int res = 0;
+        switch (piece)
+        {
+            case rook:
+                boolean legal = checkBlackLegalMove(dir, res, length);
+                if (legal)
+                {
+                    switch (dir)
+                    {
+                        case up:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                blackPieces[res].moveDown(length);
+                            }
+                            break;
+                        case down:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                blackPieces[res].moveUp(length);
+                            }
+                            break;
+                        case left:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                blackPieces[res].moveRight(length);
+                            }
+                            break;
+                        case right:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                blackPieces[res].moveLeft(length);
+                            }
+                            break;
+                    }
+                }else
+                {
+                    throw new UnsupportedOperationException("MoveNotLegal");
+                }
+                break;
+            case bishop:
+                legal = checkBlackLegalMove(dir, res, length);
+                if (legal)
+                {
+                    switch (dir)
+                    {
+                        case upleft:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                blackPieces[res].moveDownRight(length, length);
+                            }
+                            break;
+                        case upright:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                blackPieces[res].moveDownLeft(length, length);
+                            }
+                            break;
+                        case downleft:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                blackPieces[res].moveUpRight(length, length);
+                            }
+                            break;
+                        case downright:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                blackPieces[res].moveUpLeft(length, length);
+                            }
+                            break;
+                    }
+                }else
+                {
+                    throw new UnsupportedOperationException("MoveNotLegal");
+                }
+                break;
+            case queen:
+                legal = checkBlackLegalMove(dir, res, length);
+                if (legal)
+                {
+                    switch (dir)
+                    {
+                        case up:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                blackPieces[res].moveDown(length);
+                            }
+                            break;
+                        case down:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                blackPieces[res].moveUp(length);
+                            }
+                            break;
+                        case left:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                blackPieces[res].moveRight(length);
+                            }
+                            break;
+                        case right:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                blackPieces[res].moveLeft(length);
+                            }
+                            break;
+                        case upleft:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                blackPieces[res].moveDownRight(length, length);
+                            }
+                            break;
+                        case upright:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                blackPieces[res].moveDownLeft(length, length);
+                            }
+                            break;
+                        case downleft:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                blackPieces[res].moveUpRight(length, length);
+                            }
+                            break;
+                        case downright:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                blackPieces[res].moveUpLeft(length, length);
+                            }
+                            break;
+                    }
+                }else
+                {
+                    throw new UnsupportedOperationException("MoveNotLegal");
+                }
+        }
+        return res;
+    }
+
+    private boolean checkBlackLegalMove(ChessPiece.direction dir, int res, int length) {
+        boolean failed = false;
+        int temp;
+        int extraT;
+        switch (dir)
+        {
+            case down:
+                temp = blackPieces[res].getvPos();
+                if(temp+length < 8)
+                {
+                    return true;
+                }
+                break;
+            case up:
+                temp = blackPieces[res].getvPos();
+                if(temp-length > -1)
+                {
+                    return true;
+                }
+                break;
+            case right:
+                temp = blackPieces[res].gethPos();
+                if(temp-length > -1)
+                {
+                    return true;
+                }
+                break;
+            case left:
+                temp = blackPieces[res].gethPos();
+                if(temp+length < 8)
+                {
+                    return true;
+                }
+                break;
+            case downright:
+                extraT = blackPieces[res].getvPos();
+                temp = blackPieces[res].gethPos();
+                if(temp-length > -1 && extraT+length < 8)
+                {
+                    return true;
+                }
+                break;
+            case downleft:
+                extraT = blackPieces[res].getvPos();
+                temp = blackPieces[res].gethPos();
+                if(temp+length < 8 && extraT+length < 8)
+                {
+                    return true;
+                }
+                break;
+            case upright:
+                extraT = blackPieces[res].getvPos();
+                temp = blackPieces[res].gethPos();
+                if(temp-length > -1 && extraT-length > -1)
+                {
+                    return true;
+                }
+                break;
+            case upleft:
+                extraT = blackPieces[res].getvPos();
+                temp = blackPieces[res].gethPos();
+                if(temp+length < 8 && extraT-length > -1)
+                {
+                    return true;
+                }
+                break;
+        }
+        return failed;
     }
 
     private boolean checkWhiteLegalMove(ChessPiece.direction dir, int res, int length) {
