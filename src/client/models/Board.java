@@ -13,6 +13,7 @@ public class Board
     private ChessPiece[] whitePieces;
     private int whiteCount = 0;
     private ChessPiece[] blackPieces;
+    private int blackCount = 0;
     private ChessPiece[] deadBlack ;
     private ChessPiece[] deadWhite;
     private static AtomicInteger idCounter = new AtomicInteger();
@@ -46,22 +47,32 @@ public class Board
         whitePieces[whiteCount] = new King(4,0,createID());
         whiteCount++;
         whitePieces[whiteCount] = new Queen(3,0,createID());
+        whiteCount++;
     }
 
     private void intialiseBlack()
     {
         for (int i = 0; i < 8; i++)
         {
-            blackPieces.add(new Pawn(i, 6,createID()));
+            blackPieces[blackCount] = new Pawn(i, 6,createID());
+            blackCount++;
         }
-        blackPieces.add(new Rook(0,7,createID()));
-        blackPieces.add(new Rook(7,7, createID()));
-        blackPieces.add(new Knight(1,7,createID()));
-        blackPieces.add(new Knight(6,7,createID()));
-        blackPieces.add(new Bishop(2,7,createID()));
-        blackPieces.add(new Bishop(5,7,createID()));
-        blackPieces.add(new King(4,7,createID()));
-        blackPieces.add(new Queen(3,7,createID()));
+        blackPieces[blackCount] = new Rook(0,7,createID());
+        blackCount++;
+        blackPieces[blackCount] = new Rook(7,7, createID());
+        blackCount++;
+        blackPieces[blackCount] = new Knight(1,7,createID());
+        blackCount++;
+        blackPieces[blackCount] = new Knight(6,7,createID());
+        blackCount++;
+        blackPieces[blackCount] = new Bishop(2,7,createID());
+        blackCount++;
+        blackPieces[blackCount] = new Bishop(5,7,createID());
+        blackCount++;
+        blackPieces[blackCount] = new King(4,7,createID());
+        blackCount++;
+        blackPieces[blackCount] = new Queen(3,7,createID());
+        blackCount++;
     }
 
     private void moveWhiteSolid(ChessPiece.pieces piece, ChessPiece.direction dir, int pieceID)
