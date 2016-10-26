@@ -512,6 +512,47 @@ public class Board
                 {
                     throw new UnsupportedOperationException("MoveNotLegal");
                 }
+            break;
+            case bishop:
+                legal = checkWhiteLegalMove(dir, res, length);
+                if (legal)
+                {
+                    switch (dir)
+                    {
+                        case upleft:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                whitePieces[res].moveUpLeft(length, length);
+                            }
+                            break;
+                        case upright:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                whitePieces[res].moveUpRight(length, length);
+                            }
+                            break;
+                        case downleft:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                whitePieces[res].moveDownLeft(length, length);
+                            }
+                            break;
+                        case downright:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                whitePieces[res].moveDownRight(length, length);
+                            }
+                            break;
+                    }
+                }else
+                {
+                    throw new UnsupportedOperationException("MoveNotLegal");
+                }
+            break;
         }
         return res;
     }
