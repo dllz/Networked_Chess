@@ -11,7 +11,9 @@ public class ChessPiece
         pawn, rook, knight, bishop, queen, king
     }
     public enum direction {
-        up, down, left, right, upleft, upright, downleft, downright
+        up, down, left, right, upleft, upright, downleft, downright,
+        leftup, leftdown,
+        rightup, rightdown
     }
     private int maxLength;
     private ArrayList<direction> posMovements;
@@ -24,7 +26,12 @@ public class ChessPiece
         return hPos;
     }
 
+    public int getPieceID() {
+        return pieceID;
+    }
+
     public int getvPos() {
+
         return vPos;
     }
 
@@ -90,4 +97,6 @@ public class ChessPiece
         vPos -= ver;
         hPos += hos;
     }
+
+
 }
