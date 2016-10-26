@@ -77,9 +77,9 @@ public class Board
         blackCount++;
     }
 
-    private void moveWhiteSolid(ChessPiece.pieces piece, ChessPiece.direction dir, int pieceID)
+    private int moveWhiteSolid(ChessPiece.pieces piece, ChessPiece.direction dir, int pieceID)
     {
-        int res;
+        int res = 0;
         switch (piece)
         {
             case knight:
@@ -270,12 +270,12 @@ public class Board
                 }
                 break;
         }
+        return res;
     }
-    //TODO Send ID not found error up
     //TODO Check Solid Legal Move
-    private void moveBlackSolid(ChessPiece.pieces piece, ChessPiece.direction dir, int pieceID)//positions inverted
+    private int moveBlackSolid(ChessPiece.pieces piece, ChessPiece.direction dir, int pieceID)//positions inverted
     {
-        int res;
+        int res = 0;
         switch (piece)
         {
             case knight:
@@ -466,8 +466,9 @@ public class Board
                 }
                 break;
         }
+        return res;
     }
-
+    //TODO Check Solid Legal Move
     private int moveWhite(ChessPiece.pieces piece, ChessPiece.direction dir, int pieceID, int length)
     {
         int res = 0;
