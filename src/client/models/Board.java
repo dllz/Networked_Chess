@@ -148,6 +148,36 @@ public class Board
                 }
                 break;
             case pawn:
+                switch (dir)
+                {
+                    case up:
+                        res = searchWhite(pieceID);
+                        if(res!= -1)
+                        {
+                            Pawn temp = (Pawn) whitePieces[res];
+                            temp.moveUp();
+                            whitePieces[res] = temp;
+                        }
+                    break;
+                    case upleft:
+                        res = searchWhite(pieceID);
+                        if(res!= -1)
+                        {
+                            Pawn temp = (Pawn) whitePieces[res];
+                            temp.moveUpLeft();
+                            whitePieces[res] = temp;
+                        }
+                        break;
+                    case upright:
+                        res = searchWhite(pieceID);
+                        if(res!= -1)
+                        {
+                            Pawn temp = (Pawn) whitePieces[res];
+                            temp.moveUpRight();
+                            whitePieces[res] = temp;
+                        }
+                        break;
+                }
                 break;
             case king:
                 break;
