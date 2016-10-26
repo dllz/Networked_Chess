@@ -553,6 +553,73 @@ public class Board
                     throw new UnsupportedOperationException("MoveNotLegal");
                 }
             break;
+            case queen:
+                legal = checkWhiteLegalMove(dir, res, length);
+                if (legal)
+                {
+                    switch (dir)
+                    {
+                        case upleft:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                whitePieces[res].moveUpLeft(length, length);
+                            }
+                            break;
+                        case upright:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                whitePieces[res].moveUpRight(length, length);
+                            }
+                            break;
+                        case downleft:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                whitePieces[res].moveDownLeft(length, length);
+                            }
+                            break;
+                        case downright:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                whitePieces[res].moveDownRight(length, length);
+                            }
+                            break;
+                        case up:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                whitePieces[res].moveUp(length);
+                            }
+                            break;
+                        case down:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                whitePieces[res].moveDown(length);
+                            }
+                            break;
+                        case left:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                whitePieces[res].moveLeft(length);
+                            }
+                            break;
+                        case right:
+                            res = searchBlack(pieceID);
+                            if (res != -1)
+                            {
+                                whitePieces[res].moveRight(length);
+                            }
+                            break;
+                    }
+                }else
+                {
+                    throw new UnsupportedOperationException("MoveNotLegal");
+                }
         }
         return res;
     }
