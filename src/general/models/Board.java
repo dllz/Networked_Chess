@@ -1,11 +1,6 @@
-package client.models;
+package general.models;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
-
-import static client.models.ChessPiece.direction.up;
 
 /**
  * Created by Daniel on 2016/10/26.
@@ -20,7 +15,7 @@ public class Board
     private ChessPiece[] deadWhite;
     private static AtomicInteger idCounter = new AtomicInteger();
 
-    
+
     public Board()
     {
         intialiseWhite();
