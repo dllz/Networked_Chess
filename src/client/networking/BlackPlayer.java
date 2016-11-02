@@ -1,8 +1,9 @@
-package client.processing;
+package client.networking;
 
 import general.models.Board;
 import general.models.Clock;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 
@@ -11,7 +12,7 @@ import java.net.Socket;
  */
 public class BlackPlayer {
     private final String HOST = "localhost";
-    private final int PORT = 2015;
+    private final int PORT = 7683;
     private OutputStream rOut;
     private PrintWriter out;
     private InputStream rIn;
@@ -31,6 +32,7 @@ public class BlackPlayer {
         objectOut = new ObjectOutputStream(rOut);
         objectIn = new ObjectInputStream(rIn);
         sendMessage("NewGame#Black#" + user + "#White#" + opponent);
+        JOptionPane.showMessageDialog(null, "Waiting for White to connect. Board will load once they have connected");
         updateBoard();
     }
 
@@ -50,6 +52,7 @@ public class BlackPlayer {
     {
         sendMessage("Move#Black");
         objectOut.writeObject(gameBoard);
+        objectOut.flush();
     }
 
     public void sendMessage(String message) {

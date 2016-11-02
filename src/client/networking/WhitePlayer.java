@@ -1,9 +1,10 @@
-package client.processing;
+package client.networking;
 
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import general.models.Board;
 import general.models.Clock;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 
@@ -13,7 +14,7 @@ import java.net.Socket;
 public class WhitePlayer {
 
     private final String HOST = "localhost";
-    private final int PORT = 2015;
+    private final int PORT = 7682;
     private OutputStream rOut;
     private PrintWriter out;
     private InputStream rIn;
@@ -33,6 +34,7 @@ public class WhitePlayer {
         objectOut = new ObjectOutputStream(rOut);
         objectIn = new ObjectInputStream(rIn);
         sendMessage("NewGame#White#" + user + "#Black#" + opponent);
+        JOptionPane.showMessageDialog(null, "Waiting for black to connect. Board will load once they have connected");
         updateBoard();
     }
 
@@ -52,6 +54,7 @@ public class WhitePlayer {
     {
         sendMessage("Move#White");
         objectOut.writeObject(gameBoard);
+        objectOut.flush();
     }
 
     public void sendMessage(String message) {
