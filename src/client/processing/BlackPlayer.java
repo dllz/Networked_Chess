@@ -1,6 +1,5 @@
 package client.processing;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import general.models.Board;
 import general.models.Clock;
 
@@ -10,8 +9,7 @@ import java.net.Socket;
 /**
  * Created by Daniel on 2016/11/02.
  */
-public class whitePlayer {
-
+public class BlackPlayer {
     private final String HOST = "localhost";
     private final int PORT = 2015;
     private OutputStream rOut;
@@ -23,7 +21,7 @@ public class whitePlayer {
     private Board gameBoard;
     private Clock gameClock;
 
-    public whitePlayer(String user, String opponent)  throws IOException, ClassNotFoundException
+    public BlackPlayer(String user, String opponent)  throws IOException, ClassNotFoundException
     {
         Socket connect = new Socket(HOST, PORT);
         rIn = new BufferedInputStream(connect.getInputStream());
@@ -32,7 +30,7 @@ public class whitePlayer {
         out = new PrintWriter(rOut);
         objectOut = new ObjectOutputStream(rOut);
         objectIn = new ObjectInputStream(rIn);
-        sendMessage("NewGame#White#" + user + "#Black#" + opponent);
+        sendMessage("NewGame#Black#" + user + "#White#" + opponent);
         updateBoard();
     }
 
@@ -50,7 +48,7 @@ public class whitePlayer {
 
     public void sendMove() throws IOException
     {
-        sendMessage("Move#White");
+        sendMessage("Move#Black");
         objectOut.writeObject(gameBoard);
     }
 
@@ -72,5 +70,4 @@ public class whitePlayer {
         String res = in.readLine();
         return res;
     }
-
 }
