@@ -69,4 +69,17 @@ public class GameNetworkHandler
         objectOut.writeObject(gameClock);
         objectOut.flush();
     }
+
+    public void setGameClock(Clock gameClock) {
+        this.gameClock = gameClock;
+    }
+
+    public Board getGameBoard() {
+
+        return gameBoard;
+    }
+
+    public void setGameBoard(Board gameBoard) {
+        this.gameBoard = gameBoard;
+    }
 }
