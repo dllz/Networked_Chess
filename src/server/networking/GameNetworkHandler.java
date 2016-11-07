@@ -55,17 +55,23 @@ public class GameNetworkHandler
 
     public void sendBoard() throws IOException
     {
+        out.println("SEND BOARD");
+        out.flush();
         objectOut.writeObject(gameBoard);
         objectOut.flush();
     }
 
     public void getBoard() throws IOException, ClassNotFoundException
     {
+        out.println("GET BOARD");
+        out.flush();
         gameBoard = (Board) objectIn.readObject();
     }
 
-    public void sendClock() throws IOException, ClassNotFoundException
+    public void sendClock() throws IOException
     {
+        out.println("SEND CLOCK");
+        out.flush();
         objectOut.writeObject(gameClock);
         objectOut.flush();
     }
@@ -78,6 +84,12 @@ public class GameNetworkHandler
 
         return gameBoard;
     }
+    public void notifyTurn()
+    {
+        out.println("YOUR TURN");
+        out.flush();
+    }
+
 
     public void setGameBoard(Board gameBoard) {
         this.gameBoard = gameBoard;
