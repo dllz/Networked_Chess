@@ -1,5 +1,11 @@
 package general.models;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -8,8 +14,9 @@ import java.util.Arrays;
  */
 public class Bishop extends ChessPiece
 {
-    public Bishop(int hPos, int vPos, int pieceID) {
+    public Bishop(int hPos, int vPos, int pieceID, ImageIcon icon) {
         super(0, new ArrayList<>(Arrays.asList(direction.downleft, direction.upleft, direction.upright, direction.downright)), pieces.bishop, hPos, vPos, pieceID);
+        super.setIcon(icon);
     }
 
     @Override

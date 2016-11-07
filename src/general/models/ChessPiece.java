@@ -1,5 +1,6 @@
 package general.models;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 /**
@@ -21,6 +22,15 @@ public class ChessPiece
     private int hPos;
     private int vPos;
     private int pieceID;
+    private ImageIcon icon;
+
+    public ImageIcon getIcon() {
+        return icon;
+    }
+
+    public void setIcon(ImageIcon icon) {
+        this.icon = icon;
+    }
 
     public int gethPos() {
         return hPos;

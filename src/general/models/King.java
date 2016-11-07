@@ -1,5 +1,6 @@
 package general.models;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -7,8 +8,9 @@ import java.util.Arrays;
  * Created by Daniel on 2016/10/26.
  */
 public class King extends ChessPiece {
-    public King(int hPos, int vPos, int pieceID) {
+    public King(int hPos, int vPos, int pieceID, ImageIcon icon) {
         super(1, new ArrayList<>(Arrays.asList(direction.up, direction.left, direction.right, direction.down, direction.downright, direction.downleft, direction.upleft, direction.upright)), pieces.king, hPos, vPos, pieceID);
+        super.setIcon(icon);
     }
 
     public void upRight()

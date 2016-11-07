@@ -34,6 +34,7 @@ public class ChessBoard extends JFrame{
             rOut = client.getOutputStream();
             in = new BufferedReader(new InputStreamReader(rIn));
             out = new PrintWriter(client.getOutputStream());
+
             initializeGui();
         }catch (SocketException e) {
             JOptionPane.showMessageDialog(this, "Server connection lost");

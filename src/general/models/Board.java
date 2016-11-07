@@ -1,5 +1,10 @@
 package general.models;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -24,51 +29,139 @@ public class Board
 
     private void intialiseWhite()
     {
+        File image = new File("./data/White Pawn.png");
+        BufferedImage img = null;
+        ImageIcon icon = null;
+        try {
+            img = ImageIO.read(image);
+            icon = new ImageIcon(img);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         for (int i = 0; i < 8; i++)
         {
-            whitePieces[i] = new Pawn(i, 1,createID());
+            whitePieces[i] = new Pawn(i, 1,createID(), icon);
             whiteCount++;
         }
-        whitePieces[whiteCount] = new Rook(0,0,createID());
+        image = new File("./data/White Castle.png");
+        try {
+            img = ImageIO.read(image);
+            icon = new ImageIcon(img);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        whitePieces[whiteCount] = new Rook(0,0,createID(), icon);
         whiteCount++;
-        whitePieces[whiteCount] = new Rook(7,0, createID());
+        whitePieces[whiteCount] = new Rook(7,0, createID(), icon);
         whiteCount++;
-        whitePieces[whiteCount] = new Knight(1,0,createID());
+        image = new File("./data/White Knight.png");
+        try {
+            img = ImageIO.read(image);
+            icon = new ImageIcon(img);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        whitePieces[whiteCount] = new Knight(1,0,createID(), icon);
         whiteCount++;
-        whitePieces[whiteCount] = new Knight(6,0,createID());
+        whitePieces[whiteCount] = new Knight(6,0,createID(), icon);
         whiteCount++;
-        whitePieces[whiteCount] = new Bishop(2,0,createID());
+        image = new File("./data/White Bishop.png");
+        try {
+            img = ImageIO.read(image);
+            icon = new ImageIcon(img);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        whitePieces[whiteCount] = new Bishop(2,0,createID(), icon);
         whiteCount++;
-        whitePieces[whiteCount] = new Bishop(5,0,createID());
+        whitePieces[whiteCount] = new Bishop(5,0,createID(), icon);
         whiteCount++;
-        whitePieces[whiteCount] = new King(4,0,createID());
+        image = new File("./data/White King.png");
+        try {
+            img = ImageIO.read(image);
+            icon = new ImageIcon(img);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        whitePieces[whiteCount] = new King(4,0,createID(), icon);
         whiteCount++;
-        whitePieces[whiteCount] = new Queen(3,0,createID());
+        image = new File("./data/White Queen.png");
+        try {
+            img = ImageIO.read(image);
+            icon = new ImageIcon(img);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        whitePieces[whiteCount] = new Queen(3,0,createID(), icon);
         whiteCount++;
     }
 
     private void intialiseBlack()
     {
+        File image = new File("./data/Gold Pawn.png");
+        BufferedImage img = null;
+        ImageIcon icon = null;
+        try {
+            img = ImageIO.read(image);
+            icon = new ImageIcon(img);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         for (int i = 0; i < 8; i++)
         {
-            blackPieces[blackCount] = new Pawn(i, 6,createID());
+            blackPieces[blackCount] = new Pawn(i, 6,createID(), icon);
             blackCount++;
         }
-        blackPieces[blackCount] = new Rook(0,7,createID());
+        image = new File("./data/Gold Castle.png");
+        try {
+            img = ImageIO.read(image);
+            icon = new ImageIcon(img);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        blackPieces[blackCount] = new Rook(0,7,createID(), icon);
         blackCount++;
-        blackPieces[blackCount] = new Rook(7,7, createID());
+        blackPieces[blackCount] = new Rook(7,7, createID(), icon);
         blackCount++;
-        blackPieces[blackCount] = new Knight(1,7,createID());
+        image = new File("./data/Gold Knight.png");
+        try {
+            img = ImageIO.read(image);
+            icon = new ImageIcon(img);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        blackPieces[blackCount] = new Knight(1,7,createID(), icon);
         blackCount++;
-        blackPieces[blackCount] = new Knight(6,7,createID());
+        blackPieces[blackCount] = new Knight(6,7,createID(), icon);
         blackCount++;
-        blackPieces[blackCount] = new Bishop(2,7,createID());
+        image = new File("./data/Gold Bishop.png");
+        try {
+            img = ImageIO.read(image);
+            icon = new ImageIcon(img);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        blackPieces[blackCount] = new Bishop(2,7,createID(), icon);
         blackCount++;
-        blackPieces[blackCount] = new Bishop(5,7,createID());
+        blackPieces[blackCount] = new Bishop(5,7,createID(), icon);
         blackCount++;
-        blackPieces[blackCount] = new King(4,7,createID());
+        image = new File("./data/Gold King.png");
+        try {
+            img = ImageIO.read(image);
+            icon = new ImageIcon(img);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        blackPieces[blackCount] = new King(4,7,createID(), icon);
         blackCount++;
-        blackPieces[blackCount] = new Queen(3,7,createID());
+        image = new File("./data/Gold Queen.png");
+        try {
+            img = ImageIO.read(image);
+            icon = new ImageIcon(img);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        blackPieces[blackCount] = new Queen(3,7,createID(), icon);
         blackCount++;
     }
 

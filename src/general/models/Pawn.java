@@ -1,5 +1,6 @@
 package general.models;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -50,8 +51,9 @@ public class Pawn extends ChessPiece
         throw new UnsupportedOperationException("Not supported for this piece");
     }
 
-    public Pawn(int hPos, int vPos, int pieceID) {
+    public Pawn(int hPos, int vPos, int pieceID, ImageIcon icon) {
         super(1, new ArrayList<>(Arrays.asList(direction.up, direction.upleft, direction.upright)), pieces.pawn, hPos, vPos, pieceID);
+        super.setIcon(icon);
     }
 
     @Override
