@@ -17,7 +17,6 @@ public class GameSetUp
 
 
     public static boolean addPlayer(Socket s, String yName, String oppName) {
-        // TODO Auto-generated method stub
         boolean found = false;
         for(int i = 0; i < client.size(); i++){
 
@@ -34,6 +33,7 @@ public class GameSetUp
         }
         if(!found){
             client.add(new Player(s, yName, oppName));
+            System.out.println("Player added");
             return true;
         }else{
             return false;

@@ -17,7 +17,9 @@ public class Main
             serverSocket = new ServerSocket(7683);
             serverSocket.setSoTimeout(300000);
             Socket connection = serverSocket.accept();
-            TCPForwarder forward = new TCPForwarder(connection);
+            System.out.println("Connection receieved from " + connection.getInetAddress() );
+            Runnable forward = new TCPForwarder(connection);
+            forward.run();
         } catch (IOException e) {
             e.printStackTrace();
         }

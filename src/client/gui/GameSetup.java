@@ -43,6 +43,7 @@ public class GameSetup extends JFrame
         while (waiting)
         {
             try {
+                System.out.println("Reading input stream");
                 line = in.readLine();
                 if(line.equals("GET PLAYERS"))
                 {
