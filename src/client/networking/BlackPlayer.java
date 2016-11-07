@@ -22,18 +22,15 @@ public class BlackPlayer {
     private Board gameBoard;
     private Clock gameClock;
 
-    public BlackPlayer(String user, String opponent)  throws IOException, ClassNotFoundException
+    public BlackPlayer(Socket connetion)  throws IOException, ClassNotFoundException
     {
-        Socket connect = new Socket(HOST, PORT);
+        Socket connect = connetion;
         rIn = new BufferedInputStream(connect.getInputStream());
         rOut = connect.getOutputStream();
         in = new BufferedReader(new InputStreamReader(rIn));
         out = new PrintWriter(rOut);
         objectOut = new ObjectOutputStream(rOut);
         objectIn = new ObjectInputStream(rIn);
-        sendMessage("NewGame#Black#" + user + "#White#" + opponent);
-        JOptionPane.showMessageDialog(null, "Waiting for White to connect. Board will load once they have connected");
-        updateBoard();
     }
 
     public void waitForOpp()
