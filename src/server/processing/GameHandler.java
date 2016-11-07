@@ -24,20 +24,24 @@ public class GameHandler implements Runnable
 
     public GameHandler(Socket white, Socket black) throws IOException
     {
+        System.out.println("Joining matches");
         this.whitePlayer = new WhiteNetworkHandler(white);
         this.blackPlayer = new BlackNetworkHandler(black);
+        System.out.println("Sockets assigned");
         game = new Board();
         whitePlayer.setGameBoard(game);
         blackPlayer.setGameBoard(game);
         long seconds = System.currentTimeMillis() / 1000l;
         whiteMove = seconds;
         gameClock = new Clock(seconds, 20);
+        System.out.println("Everything is intialised");
         whitePlayer.setGameClock(gameClock);
         blackPlayer.setGameClock(gameClock);
         whitePlayer.sendBoard();
         blackPlayer.sendBoard();
         whitePlayer.sendClock();
         blackPlayer.sendClock();
+        System.out.println("Everything sent");
     }
 
 
@@ -47,6 +51,7 @@ public class GameHandler implements Runnable
         boolean running = true;
         while (running)
         {
+            System.out.println("Game control");
             if (currentTurn == 0)
             {
                 try {

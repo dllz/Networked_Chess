@@ -18,9 +18,10 @@ public class GameSetUp
     public static boolean addPlayer(Socket s, String yName, String oppName) {
         boolean found = false;
         for(int i = 0; i < client.size(); i++){
-
+            System.out.println("Searching for matching game");
             if(client.get(i).getOppName().equals(yName)){
                 try {
+                    System.out.println("Moving game to new thread");
                     Runnable game = new GameHandler(client.get(i).getSocket(), s);
                     game.run();
                     client.remove(i);
