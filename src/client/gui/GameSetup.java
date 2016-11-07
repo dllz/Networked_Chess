@@ -21,7 +21,9 @@ public class GameSetup extends JFrame
 
     public GameSetup() {
         setTitle("Game Setup");
+        this.setVisible(true);
         notice = new JLabel();
+        add(notice, BorderLayout.CENTER);
         String user = JOptionPane.showInputDialog("Please enter your username");
         String opp = JOptionPane.showInputDialog("Please enter your opponents username");
         Socket connect = null;
@@ -61,7 +63,7 @@ public class GameSetup extends JFrame
             }
 
         }
-        add(notice, BorderLayout.CENTER);
+
     }
 
 }
