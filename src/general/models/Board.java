@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -14,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by Daniel on 2016/10/26.
  */
-public class Board
+public class Board implements Serializable
 {
     private ChessPiece[] whitePieces;
     private int whiteCount = 0;

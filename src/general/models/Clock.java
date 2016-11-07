@@ -1,9 +1,11 @@
 package general.models;
 
+import java.io.Serializable;
+
 /**
  * Created by Daniel on 2016/11/02.
  */
-public class Clock
+public class Clock implements Serializable
 {
     private long whiteTime;
     private long blackTime;

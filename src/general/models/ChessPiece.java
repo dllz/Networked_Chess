@@ -1,12 +1,13 @@
 package general.models;
 
 import javax.swing.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Daniel on 2016/10/26.
  */
-public class ChessPiece
+public class ChessPiece implements Serializable
 {
     public enum pieces{
         pawn, rook, knight, bishop, queen, king
