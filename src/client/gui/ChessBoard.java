@@ -1,12 +1,16 @@
 package client.gui;
 
 import general.models.Board;
+import general.models.ChessPiece;
 import general.models.Clock;
+import server.processing.GameHandler;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
@@ -31,6 +35,9 @@ public class ChessBoard extends JFrame{
     private Clock gameClock;
     private ObjectOutputStream objectOut;
     private ObjectInputStream objectIn;
+    private JLabel time;
+    private int player; //white is zero black is one
+    boolean waitForUser = true;
 
     public ChessBoard(Socket client) {
         try
@@ -42,9 +49,18 @@ public class ChessBoard extends JFrame{
             out = new PrintWriter(client.getOutputStream());
             objectOut = new ObjectOutputStream(rOut);
             objectIn = new ObjectInputStream(rIn);
+            String line = in.readLine();
+            if (line.equals("TYPE WHITE"))
+            {
+                player = 0;
+            } else if(line.equals("TYPE BLACK"))
+            {
+                player = 1;
+            }
             getBoard();
             getClock();
             initializeGui();
+            gameHandler();
         }catch (SocketException e) {
             JOptionPane.showMessageDialog(this, "Server connection lost");
         } catch(IOException e)
@@ -52,6 +68,82 @@ public class ChessBoard extends JFrame{
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void gameHandler() throws IOException, ClassNotFoundException {
+        boolean resign = false;
+        String line;
+
+        while(!resign)
+        {
+            line = in.readLine();
+            if (line.equals("YOUR TURN"))
+            {
+                setUserWait(true);
+                while(waitForUser)
+                {
+                    ActionListener listener = new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            for (int i = 0; i < chessBoardSquares.length; i++) {
+                                for (int j = 0; j < chessBoardSquares[i].length; j++) {
+                                    if (e.getSource() == chessBoardSquares[i][j]) {
+                                        final int  h = i;
+                                        final int v = j;
+                                        if(gameBoard.getPiece(h, v) != null)
+                                        {
+                                            final ChessPiece temp = gameBoard.getPiece(h, v);
+                                            ActionListener listener = new ActionListener() {
+                                                @Override
+                                                public void actionPerformed(ActionEvent e) {
+                                                    for (int g = 0; g < chessBoardSquares.length; g++) {
+                                                        for (int h = 0; h < chessBoardSquares[g].length; h++) {
+                                                            if (e.getSource() == chessBoardSquares[g][h]) {
+                                                                int hh = g;
+                                                                int vv = h;
+                                                                if(gameBoard.getPiece(hh, vv) != null)
+                                                                {
+                                                                    ChessPiece oveTo = gameBoard.getPiece(hh, vv);
+                                                                    gameBoard.killPiece(hh, vv, oveTo.getPieceID());
+                                                                    temp.setPos(vv, hh);
+                                                                    setUserWait(false);
+                                                                } else
+                                                                {
+                                                                    temp.setPos(vv, hh);
+                                                                    setUserWait(false);
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            };
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    };
+                }
+            } else if (line.equals("SEND CLOCK"))
+            {
+                getClock();
+                redrawBoard(player);
+            } else if (line.equals("GET BOARD"))
+            {
+                sendBoard();
+            } else if (line.equals("SEND BOARD"))
+            {
+                getBoard();
+            } else if (line.equals("YOU LOSE"))
+            {
+                JOptionPane.showMessageDialog(this, "You lost");
+                System.exit(1);
+            }else if (line.equals("YOU WIN"))
+            {
+                JOptionPane.showMessageDialog(this, "You Won");
+                System.exit(1);
+            }
         }
     }
 
@@ -64,6 +156,9 @@ public class ChessBoard extends JFrame{
         tools.add(new JButton("Resign")); // TODO - add functionality!
         tools.addSeparator();
         tools.add(message);
+        time = new JLabel();
+        tools.add(time);
+        time.setText("Time Left: " + gameClock.getWhiteLeft());
 
         gui.add(new JLabel("?"), BorderLayout.LINE_START);
 
@@ -111,12 +206,19 @@ public class ChessBoard extends JFrame{
         }
     }
 
-    public final void redrawBoard()
+    public final void redrawBoard(int player)
     {
         for (int ii = 0; ii < chessBoardSquares.length; ii++) {
             for (int jj = 0; jj < chessBoardSquares[ii].length; jj++) {
                 chessBoardSquares[ii][jj].setIcon(gameBoard.getPiece(ii, jj).getIcon());
             }
+        }
+        if (player == 0)
+        {
+            time.setText("Time Left: " + gameClock.getWhiteLeft());
+        }else if (player == 1)
+        {
+            time.setText("Time Left: " + gameClock.getBlackLeft());
         }
     }
 
@@ -135,5 +237,11 @@ public class ChessBoard extends JFrame{
     {
         gameClock = (Clock) objectIn.readObject();
     }
+
+    private void setUserWait(boolean v)
+    {
+        waitForUser = v;
+    }
+
 
 }

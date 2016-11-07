@@ -1,10 +1,14 @@
 package general.models;
 
+import com.sun.deploy.util.ArrayUtil;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -16,8 +20,6 @@ public class Board
     private int whiteCount = 0;
     private ChessPiece[] blackPieces;
     private int blackCount = 0;
-    private ChessPiece[] deadBlack ;
-    private ChessPiece[] deadWhite;
     private static AtomicInteger idCounter = new AtomicInteger();
 
 
@@ -29,6 +31,7 @@ public class Board
 
     private void intialiseWhite()
     {
+        whitePieces = new ChessPiece[16];
         File image = new File("./data/White Pawn.png");
         BufferedImage img = null;
         ImageIcon icon = null;
@@ -98,6 +101,7 @@ public class Board
 
     private void intialiseBlack()
     {
+        blackPieces = new ChessPiece[16];
         File image = new File("./data/Gold Pawn.png");
         BufferedImage img = null;
         ImageIcon icon = null;
@@ -1057,5 +1061,28 @@ public class Board
             }
         }
         return null;
+    }
+
+    public void killPiece(int horizontal, int vertical, int pieceID)
+    {
+        int black = searchBlack(pieceID);
+        int white = searchWhite(pieceID);
+        if (black != -1)
+        {
+            blackPieces = removeElements(blackPieces,getPiece(horizontal, vertical));
+        }else
+        {
+            whitePieces = removeElements(whitePieces,getPiece(horizontal, vertical));
+        }
+
+    }
+    public static ChessPiece[] removeElements(ChessPiece[] input, ChessPiece deleteMe) {
+        List result = new LinkedList();
+
+        for(ChessPiece item : input)
+            if(!deleteMe.equals(item))
+                result.add(item);
+
+        return (ChessPiece[]) result.toArray(input);
     }
 }
