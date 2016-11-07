@@ -1,8 +1,6 @@
 package client.gui;
 
-import general.models.Board;
-import general.models.ChessPiece;
-import general.models.Clock;
+import general.models.*;
 import server.processing.GameHandler;
 
 import javax.swing.*;
@@ -98,16 +96,63 @@ public class ChessBoard extends JFrame{
                                                 @Override
                                                 public void actionPerformed(ActionEvent e) {
                                                     for (int g = 0; g < chessBoardSquares.length; g++) {
-                                                        for (int h = 0; h < chessBoardSquares[g].length; h++) {
-                                                            if (e.getSource() == chessBoardSquares[g][h]) {
+                                                        for (int a = 0; a < chessBoardSquares[g].length; a++) {
+                                                            if (e.getSource() == chessBoardSquares[g][a]) {
                                                                 int hh = g;
-                                                                int vv = h;
+                                                                int vv = a;
                                                                 if(gameBoard.getPiece(hh, vv) != null)
                                                                 {
-                                                                    ChessPiece oveTo = gameBoard.getPiece(hh, vv);
-                                                                    gameBoard.killPiece(hh, vv, oveTo.getPieceID());
-                                                                    temp.setPos(vv, hh);
-                                                                    setUserWait(false);
+                                                                    if (player == 0)
+                                                                    {
+                                                                        if (temp.getClass().equals(Knight.class) || temp.getClass().equals(Pawn.class) || temp.getClass().equals(King.class))
+                                                                        {
+                                                                            int res = gameBoard.moveWhiteSolid(getPieceType(temp.getClass()),getDir(h,v,hh,vv),temp.getPieceID());
+                                                                            if (res != -1)
+                                                                            {
+                                                                                setUserWait(false);
+                                                                            }else
+                                                                            {
+                                                                                JOptionPane.showMessageDialog(null, "Illegal Move");
+                                                                            }
+                                                                        } else
+                                                                        {
+                                                                            int res = gameBoard.moveWhite(getPieceType(temp.getClass()),getDir(h,v,hh,vv),temp.getPieceID(), getLength(h,v,hh,vv));
+                                                                            if (res != -1)
+                                                                            {
+                                                                                ChessPiece oveTo = gameBoard.getPiece(hh, vv);
+                                                                                gameBoard.killPiece(hh,vv,oveTo.getPieceID());
+                                                                                setUserWait(false);
+                                                                            }else
+                                                                            {
+                                                                                JOptionPane.showMessageDialog(null, "Illegal Move");
+                                                                            }
+                                                                        }
+                                                                    } else if (player == 1)
+                                                                    {
+                                                                        if (temp.getClass().equals(Knight.class) || temp.getClass().equals(Pawn.class) || temp.getClass().equals(King.class))
+                                                                        {
+                                                                            int res = gameBoard.moveBlackSolid(getPieceType(temp.getClass()),getDir(h,v,hh,vv),temp.getPieceID());
+                                                                            if (res != -1)
+                                                                            {
+                                                                                setUserWait(false);
+                                                                            }else
+                                                                            {
+                                                                                JOptionPane.showMessageDialog(null, "Illegal Move");
+                                                                            }
+                                                                        } else
+                                                                        {
+                                                                            int res = gameBoard.moveBlack(getPieceType(temp.getClass()),getDir(h,v,hh,vv),temp.getPieceID(), getLength(h,v,hh,vv));
+                                                                            if (res != -1)
+                                                                            {
+                                                                                ChessPiece oveTo = gameBoard.getPiece(hh, vv);
+                                                                                gameBoard.killPiece(hh,vv,oveTo.getPieceID());
+                                                                                setUserWait(false);
+                                                                            }else
+                                                                            {
+                                                                                JOptionPane.showMessageDialog(null, "Illegal Move");
+                                                                            }
+                                                                        }
+                                                                    }
                                                                 } else
                                                                 {
                                                                     temp.setPos(vv, hh);
@@ -144,6 +189,97 @@ public class ChessBoard extends JFrame{
                 JOptionPane.showMessageDialog(this, "You Won");
                 System.exit(1);
             }
+        }
+    }
+
+    private int getLength(int h, int v, int hh, int vv) {
+        if ( h != hh)
+        {
+            return Math.abs(h - hh);
+        }else
+        {
+            return Math.abs(v - vv);
+        }
+    }
+
+    private ChessPiece.direction getDir(int h, int v, int hh, int vv)
+    {
+        ChessPiece.direction res = ChessPiece.direction.up;
+        int changeV = vv - v;
+        int changeH = hh - h;
+        if (changeV < 0)
+        {
+            res = ChessPiece.direction.down;
+        }
+        if (changeV > 0)
+        {
+            res = ChessPiece.direction.up;
+        }
+        if (changeH < 0)
+        {
+            res = ChessPiece.direction.left;
+        }
+        if (changeH > 0)
+        {
+            res = ChessPiece.direction.right;
+        }
+        if (changeH > 0 && changeV > 0)
+        {
+             res = ChessPiece.direction.upright;
+        }
+        if (changeH > 0 && changeV < 0)
+        {
+            res = ChessPiece.direction.downright;
+        }
+        if (changeH < 0 && changeV < 0)
+        {
+            res = ChessPiece.direction.downleft;
+        }
+        if (changeH < 0 && changeV > 0)
+        {
+            res = ChessPiece.direction.upleft;
+        }
+        if (changeH > 0 && changeV > 0 && Math.abs(changeH) > Math.abs(changeV))
+        {
+            res = ChessPiece.direction.rightup;
+        }
+        if (changeH > 0 && changeV < 0 && Math.abs(changeH) > Math.abs(changeV))
+        {
+            res = ChessPiece.direction.rightdown;
+        }
+        if (changeH < 0 && changeV < 0 && Math.abs(changeH) > Math.abs(changeV))
+        {
+            res = ChessPiece.direction.leftdown;
+        }
+        if (changeH < 0 && changeV > 0 && Math.abs(changeH) > Math.abs(changeV))
+        {
+            res = ChessPiece.direction.leftup;
+        }
+        return res;
+    }
+
+    private ChessPiece.pieces getPieceType(Class<? extends ChessPiece> aClass) {
+        if (aClass.equals(Bishop.class))
+        {
+            return ChessPiece.pieces.bishop;
+        } else if (aClass.equals(King.class))
+        {
+            return ChessPiece.pieces.king;
+        }else if (aClass.equals(Knight.class))
+        {
+            return ChessPiece.pieces.knight;
+        }else if (aClass.equals(Pawn.class))
+        {
+            return ChessPiece.pieces.pawn;
+        }else if (aClass.equals(Queen.class))
+        {
+            return ChessPiece.pieces.queen;
+        }else if (aClass.equals(Rook.class))
+        {
+            return ChessPiece.pieces.rook;
+        }else
+        {
+            return null;
         }
     }
 
@@ -242,6 +378,4 @@ public class ChessBoard extends JFrame{
     {
         waitForUser = v;
     }
-
-
 }
