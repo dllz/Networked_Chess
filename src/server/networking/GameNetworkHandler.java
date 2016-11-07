@@ -43,12 +43,14 @@ public class GameNetworkHandler
         System.out.println("Streams binded");
         out.println("GAME MATCHED");
         out.flush();
-        data = new ServerSocket(7684);
+        data = create();
+        out.println("PORT " + data.getLocalPort());
+        out.flush();
         System.out.println("Second socket made");
         cont = data.accept();
         System.out.println("Connection made");
-        dataIn = new ObjectInputStream(cont.getInputStream());
         dataOut = new ObjectOutputStream(cont.getOutputStream());
+        dataIn = new ObjectInputStream(cont.getInputStream());
         System.out.println("Second Streams binded");
         System.out.println("First command sent");
         out.println("TYPE " + type);
@@ -82,16 +84,10 @@ public class GameNetworkHandler
         gameBoard = getGame().getBoard();
     }
 
-    public void sendGame() throws IOException
-    {
+    public void sendGame() throws IOException {
         out.println("SEND GAME");
         out.flush();
-        String temp = in.readLine();
-        if (temp.equals("READY"))
-        {
-            sendObject(new Game(gameBoard,gameClock));
-        }
-
+        sendObject(new Game(gameBoard, gameClock));
     }
 
     public void setGameClock(Clock gameClock) {
@@ -125,5 +121,16 @@ public class GameNetworkHandler
         Game res;
         res =  (Game) dataIn.readObject();
         return res;
+    }
+    public ServerSocket create() throws IOException {
+        for (int i = 1000; i < 65000; i++) {
+            try {
+                return new ServerSocket(i);
+            } catch (IOException ex) {
+                continue; // try next port
+            }
+        }
+        // if the program gets here, no port in the range was found
+        throw new IOException("no free port found");
     }
 }

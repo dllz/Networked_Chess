@@ -45,9 +45,12 @@ public class ChessBoard extends JFrame{
             rOut = client.getOutputStream();
             in = new BufferedReader(new InputStreamReader(rIn));
             out = new PrintWriter(client.getOutputStream());
-            cont = new Socket("localhost", 7684);
-            dataIn = new ObjectInputStream(cont.getInputStream());
+            String[] port = in.readLine().split("\\s");
+            int portNum = Integer.parseInt(port[1]);
+            System.out.println("Connecting on port " + portNum);
+            cont = new Socket("localhost", portNum);
             dataOut = new ObjectOutputStream(cont.getOutputStream());
+            dataIn = new ObjectInputStream(cont.getInputStream());
             String line = in.readLine();
             System.out.println(line);
             if (line.equals("TYPE WHITE"))
@@ -366,11 +369,7 @@ public class ChessBoard extends JFrame{
 
     public void sendGame() throws IOException
     {
-        String temp = in.readLine();
-        if (temp.equals("READY"))
-        {
-            sendObject(new Game(gameBoard,gameClock));
-        }
+        sendObject(new Game(gameBoard,gameClock));
     }
 
 
