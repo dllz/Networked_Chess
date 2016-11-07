@@ -29,7 +29,8 @@ public class GameNetworkHandler
      */
     public GameNetworkHandler(Socket ConnectionToClient, String type) throws IOException {
         // Bind Streams
-
+        out.println("GAME MATCHED");
+        out.flush();
         connect = ConnectionToClient;
         rIn = new BufferedInputStream(connect.getInputStream());
         rOut = connect.getOutputStream();
@@ -39,7 +40,7 @@ public class GameNetworkHandler
         objectIn = new ObjectInputStream(rIn);
         System.out.println("Streams binded");
         out.println("TYPE " + type);
-
+        out.flush();
     }
 
     /**
