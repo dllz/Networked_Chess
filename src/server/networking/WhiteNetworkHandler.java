@@ -9,7 +9,7 @@ import java.net.Socket;
  */
 public class WhiteNetworkHandler extends GameNetworkHandler {
     public WhiteNetworkHandler(Socket ConnectionToClient) throws IOException {
-        super(ConnectionToClient);
+        super(ConnectionToClient, "WHITE");
     }
 
 }

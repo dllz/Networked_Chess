@@ -9,6 +9,6 @@ import java.net.Socket;
  */
 public class BlackNetworkHandler extends GameNetworkHandler{
     public BlackNetworkHandler(Socket ConnectionToClient) throws IOException {
-        super(ConnectionToClient);
+        super(ConnectionToClient, "BLACK");
     }
 }

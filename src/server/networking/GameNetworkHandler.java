@@ -27,7 +27,7 @@ public class GameNetworkHandler
      *
      * @param ConnectionToClient Connected server socket
      */
-    public GameNetworkHandler(Socket ConnectionToClient) throws IOException {
+    public GameNetworkHandler(Socket ConnectionToClient, String type) throws IOException {
         // Bind Streams
 
         connect = ConnectionToClient;
@@ -38,6 +38,7 @@ public class GameNetworkHandler
         objectOut = new ObjectOutputStream(rOut);
         objectIn = new ObjectInputStream(rIn);
         System.out.println("Streams binded");
+        out.println("TYPE " + type);
 
     }
 
