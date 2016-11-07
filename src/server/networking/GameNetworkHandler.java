@@ -22,6 +22,10 @@ public class GameNetworkHandler
     private Socket connect;
     private Board gameBoard;
     private Clock gameClock;
+    private ServerSocket data;
+    private ObjectInputStream dataIn;
+    private Socket cont;
+    private ObjectOutputStream dataOut;
 
     /**
      * Default constructor
@@ -39,6 +43,13 @@ public class GameNetworkHandler
         System.out.println("Streams binded");
         out.println("GAME MATCHED");
         out.flush();
+        data = new ServerSocket(7684);
+        System.out.println("Second socket made");
+        cont = data.accept();
+        System.out.println("Connection made");
+        dataIn = new ObjectInputStream(cont.getInputStream());
+        dataOut = new ObjectOutputStream(cont.getOutputStream());
+        System.out.println("Second Streams binded");
         System.out.println("First command sent");
         out.println("TYPE " + type);
         out.flush();
@@ -104,25 +115,15 @@ public class GameNetworkHandler
 
     public void sendObject(Game obj) throws IOException
     {
-        Socket temp = new Socket(connect.getInetAddress(), connect.getPort()+1);
-        ObjectOutputStream out = new ObjectOutputStream(temp.getOutputStream());
-        out.writeObject(obj);
-        out.close();
-        temp.close();
+        System.out.println("Sending data" + " " + System.currentTimeMillis());
+
+        dataOut.writeObject(obj);
+        dataOut.flush();
     }
     public Game getObject() throws IOException, ClassNotFoundException
     {
         Game res;
-        ServerSocket temp = new ServerSocket(connect.getLocalPort()+1);
-        out.println("READY");
-        out.flush();
-        Socket cont = temp.accept();
-
-        ObjectInputStream in = new ObjectInputStream(cont.getInputStream());
-        res =  (Game) in.readObject();
-        in.close();
-        cont.close();
-        temp.close();
+        res =  (Game) dataIn.readObject();
         return res;
     }
 }

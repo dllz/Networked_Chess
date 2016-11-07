@@ -33,6 +33,9 @@ public class ChessBoard extends JFrame{
     private JLabel time;
     private int player; //white is zero black is one
     boolean waitForUser = true;
+    private ObjectInputStream dataIn;
+    private Socket cont;
+    private ObjectOutputStream dataOut;
 
     public ChessBoard(Socket client) {
         try
@@ -42,7 +45,11 @@ public class ChessBoard extends JFrame{
             rOut = client.getOutputStream();
             in = new BufferedReader(new InputStreamReader(rIn));
             out = new PrintWriter(client.getOutputStream());
+            cont = new Socket("localhost", 7684);
+            dataIn = new ObjectInputStream(cont.getInputStream());
+            dataOut = new ObjectOutputStream(cont.getOutputStream());
             String line = in.readLine();
+            System.out.println(line);
             if (line.equals("TYPE WHITE"))
             {
                 player = 0;
@@ -374,25 +381,16 @@ public class ChessBoard extends JFrame{
 
     public void sendObject(Game obj) throws IOException
     {
-        Socket temp = new Socket(client.getInetAddress(), client.getPort()+1);
-        ObjectOutputStream out = new ObjectOutputStream(temp.getOutputStream());
-        out.writeObject(obj);
-        out.close();
-        temp.close();
+        System.out.println("Sending data" + " " + System.currentTimeMillis());
+
+        dataOut.writeObject(obj);
+        dataOut.flush();
     }
     public Game getObject() throws IOException, ClassNotFoundException
     {
         Game res;
-        ServerSocket temp = new ServerSocket(client.getLocalPort()+1);
-        out.println("READY");
-        out.flush();
-        Socket cont = temp.accept();
-
-        ObjectInputStream in = new ObjectInputStream(cont.getInputStream());
-        res =  (Game) in.readObject();
-        in.close();
-        cont.close();
-        temp.close();
+        res =  (Game) dataIn.readObject();
         return res;
     }
+
 }
