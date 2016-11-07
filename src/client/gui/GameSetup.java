@@ -22,6 +22,14 @@ public class GameSetup extends JFrame
     public GameSetup() {
         setTitle("Game Setup");
         this.setVisible(true);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.setSize(600, 400);
+        int width = this.getWidth()/2;
+        int height = this.getHeight()/2;
+        int x = (Toolkit.getDefaultToolkit().getScreenSize().width/2)-width;
+        int y = (Toolkit.getDefaultToolkit().getScreenSize().height/2)-height;
+        this.setLocation(x, y);
         notice = new JLabel();
         add(notice, BorderLayout.CENTER);
         String user = JOptionPane.showInputDialog("Please enter your username");
