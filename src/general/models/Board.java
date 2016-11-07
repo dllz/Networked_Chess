@@ -1039,4 +1039,23 @@ public class Board
     {
         return idCounter.getAndIncrement();
     }
+
+    public ChessPiece getPiece(int horizontal, int vertical)
+    {
+        for (int i = 0; i < whitePieces.length; i++)
+        {
+            if(whitePieces[i].gethPos() == horizontal && whitePieces[i].getvPos() == vertical)
+            {
+                return whitePieces[i];
+            }
+        }
+        for (int i = 0; i < blackPieces.length; i++)
+        {
+            if(blackPieces[i].gethPos() == horizontal && blackPieces[i].getvPos() == vertical)
+            {
+                return blackPieces[i];
+            }
+        }
+        return null;
+    }
 }

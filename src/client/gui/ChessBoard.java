@@ -1,10 +1,12 @@
 package client.gui;
 
+import general.models.Board;
+import general.models.Clock;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
@@ -25,6 +27,10 @@ public class ChessBoard extends JFrame{
     private JPanel chessBoard;
     private static final String COLS = "ABCDEFGH";
     private final JLabel message = new JLabel("Chess Champ is ready to play!");
+    private Board gameBoard;
+    private Clock gameClock;
+    private ObjectOutputStream objectOut;
+    private ObjectInputStream objectIn;
 
     public ChessBoard(Socket client) {
         try
@@ -34,13 +40,18 @@ public class ChessBoard extends JFrame{
             rOut = client.getOutputStream();
             in = new BufferedReader(new InputStreamReader(rIn));
             out = new PrintWriter(client.getOutputStream());
-
+            objectOut = new ObjectOutputStream(rOut);
+            objectIn = new ObjectInputStream(rIn);
+            getBoard();
+            getClock();
             initializeGui();
         }catch (SocketException e) {
             JOptionPane.showMessageDialog(this, "Server connection lost");
         } catch(IOException e)
         {
 
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
@@ -67,13 +78,9 @@ public class ChessBoard extends JFrame{
                 JButton b = new JButton();
                 b.setMargin(buttonMargin);
                 // our chess pieces are 64x64 px in size, so we'll
-                // 'fill this in' using a transparent icon..
-                ImageIcon icon = new ImageIcon(
-                        new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB));
-                b.setIcon(icon);
-                if ((jj % 2 == 1 && ii % 2 == 1)
-                        //) {
-                        || (jj % 2 == 0 && ii % 2 == 0)) {
+                // 'fill this in' using a transparent icon.
+                b.setIcon(gameBoard.getPiece(ii, jj).getIcon());
+                if ((jj % 2 == 1 && ii % 2 == 1) || (jj % 2 == 0 && ii % 2 == 0)) {
                     b.setBackground(Color.WHITE);
                 } else {
                     b.setBackground(Color.BLACK);
@@ -103,4 +110,30 @@ public class ChessBoard extends JFrame{
             }
         }
     }
+
+    public final void redrawBoard()
+    {
+        for (int ii = 0; ii < chessBoardSquares.length; ii++) {
+            for (int jj = 0; jj < chessBoardSquares[ii].length; jj++) {
+                chessBoardSquares[ii][jj].setIcon(gameBoard.getPiece(ii, jj).getIcon());
+            }
+        }
+    }
+
+    public void sendBoard() throws IOException
+    {
+        objectOut.writeObject(gameBoard);
+        objectOut.flush();
+    }
+
+    public void getBoard() throws IOException, ClassNotFoundException
+    {
+        gameBoard = (Board) objectIn.readObject();
+    }
+
+    public void getClock() throws IOException, ClassNotFoundException
+    {
+        gameClock = (Clock) objectIn.readObject();
+    }
+
 }
