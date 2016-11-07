@@ -53,7 +53,8 @@ public class GameSetup extends JFrame
                 } else if(line.equals("GAME MATCHED"))
                 {
                     waiting = false;
-                    ChessBoard game = new ChessBoard();
+                    ChessBoard game = new ChessBoard(connect);
+                    this.setVisible(false);
                 }
             } catch (IOException e) {
                 notice.setText("Server connection lost");
