@@ -24,7 +24,7 @@ public class GameSetup extends JFrame
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        this.setSize(600, 400);
+        this.setSize(200, 75);
         int width = this.getWidth()/2;
         int height = this.getHeight()/2;
         int x = (Toolkit.getDefaultToolkit().getScreenSize().width/2)-width;

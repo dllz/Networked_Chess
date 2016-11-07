@@ -16,11 +16,8 @@ public class GameNetworkHandler
     private InputStream rIn;
     private BufferedReader in;
     private Socket connect;
-    private ObjectOutputStream objectOut;
-    private ObjectInputStream objectIn;
     private Board gameBoard;
     private Clock gameClock;
-    private String client;
 
     /**
      * Default constructor
@@ -29,18 +26,19 @@ public class GameNetworkHandler
      */
     public GameNetworkHandler(Socket ConnectionToClient, String type) throws IOException {
         // Bind Streams
+        System.out.println("Attempting to bind strams");
         connect = ConnectionToClient;
         rIn = new BufferedInputStream(connect.getInputStream());
         rOut = connect.getOutputStream();
         in = new BufferedReader(new InputStreamReader(rIn));
         out = new PrintWriter(rOut);
-        objectOut = new ObjectOutputStream(rOut);
-        objectIn = new ObjectInputStream(rIn);
+        System.out.println("Streams binded");
         out.println("GAME MATCHED");
         out.flush();
-        System.out.println("Streams binded");
+        System.out.println("First command sent");
         out.println("TYPE " + type);
         out.flush();
+        System.out.println("Second command sent");
     }
 
     /**
@@ -59,23 +57,18 @@ public class GameNetworkHandler
     {
         out.println("SEND BOARD");
         out.flush();
-        objectOut.writeObject(gameBoard);
-        objectOut.flush();
     }
 
     public void getBoard() throws IOException, ClassNotFoundException
     {
         out.println("GET BOARD");
         out.flush();
-        gameBoard = (Board) objectIn.readObject();
     }
 
     public void sendClock() throws IOException
     {
         out.println("SEND CLOCK");
         out.flush();
-        objectOut.writeObject(gameClock);
-        objectOut.flush();
     }
 
     public void setGameClock(Clock gameClock) {
