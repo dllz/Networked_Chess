@@ -7,6 +7,7 @@ import general.models.Game;
 import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
@@ -74,7 +75,12 @@ public class GameNetworkHandler
     {
         out.println("SEND GAME");
         out.flush();
-        sendObject(new Game(gameBoard, gameClock));
+        String temp = in.readLine();
+        if (temp.equals("READY"))
+        {
+            sendObject(new Game(gameBoard,gameClock));
+        }
+
     }
 
     public void setGameClock(Clock gameClock) {
@@ -98,25 +104,25 @@ public class GameNetworkHandler
 
     public void sendObject(Game obj) throws IOException
     {
-        DatagramSocket server = new DatagramSocket();
-        byte[] dataOut;
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        ObjectOutput oo = new ObjectOutputStream(output);
-        oo.writeObject(obj);
-        oo.close();
-        dataOut = output.toByteArray();
-        System.out.println(output.size());
-        DatagramPacket packOut = new DatagramPacket(dataOut, dataOut.length, connect.getInetAddress(), connect.getPort());
-        server.send(packOut);
+        Socket temp = new Socket(connect.getInetAddress(), connect.getPort()+1);
+        ObjectOutputStream out = new ObjectOutputStream(temp.getOutputStream());
+        out.writeObject(obj);
+        out.close();
+        temp.close();
     }
     public Game getObject() throws IOException, ClassNotFoundException
     {
-        DatagramSocket client = new DatagramSocket(7683);
-        byte[] dataIn = new byte[1024];
-        DatagramPacket packIn = new DatagramPacket(dataIn, dataIn.length);
-        client.receive(packIn);
-        try (ObjectInputStream iStream = new ObjectInputStream(new ByteArrayInputStream(packIn.getData()))) {
-            return (Game) iStream.readObject();
-        }
+        Game res;
+        ServerSocket temp = new ServerSocket(connect.getLocalPort()+1);
+        out.println("READY");
+        out.flush();
+        Socket cont = temp.accept();
+
+        ObjectInputStream in = new ObjectInputStream(cont.getInputStream());
+        res =  (Game) in.readObject();
+        in.close();
+        cont.close();
+        temp.close();
+        return res;
     }
 }

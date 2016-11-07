@@ -10,10 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.Socket;
-import java.net.SocketException;
+import java.net.*;
 
 /**
  * Created by Daniel on 2016/11/07.
@@ -354,8 +351,6 @@ public class ChessBoard extends JFrame{
 
     public void getGame() throws IOException, ClassNotFoundException
     {
-        out.println("GET GAME");
-        out.flush();
         Game temp = getObject();
         gameBoard = temp.getBoard();
         gameClock = temp.getClock();
@@ -364,9 +359,11 @@ public class ChessBoard extends JFrame{
 
     public void sendGame() throws IOException
     {
-        out.println("SEND GAME");
-        out.flush();
-        sendObject(new Game(gameBoard, gameClock));
+        String temp = in.readLine();
+        if (temp.equals("READY"))
+        {
+            sendObject(new Game(gameBoard,gameClock));
+        }
     }
 
 
@@ -377,25 +374,25 @@ public class ChessBoard extends JFrame{
 
     public void sendObject(Game obj) throws IOException
     {
-        DatagramSocket server = new DatagramSocket();
-        byte[] dataOut;
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        ObjectOutput oo = new ObjectOutputStream(output);
-        oo.writeObject(obj);
-        oo.close();
-        dataOut = output.toByteArray();
-        System.out.println(output.size());
-        DatagramPacket packOut = new DatagramPacket(dataOut, dataOut.length, client.getInetAddress(), client.getPort());
-        server.send(packOut);
+        Socket temp = new Socket(client.getInetAddress(), client.getPort()+1);
+        ObjectOutputStream out = new ObjectOutputStream(temp.getOutputStream());
+        out.writeObject(obj);
+        out.close();
+        temp.close();
     }
     public Game getObject() throws IOException, ClassNotFoundException
     {
-        DatagramSocket cont = new DatagramSocket(client.getLocalPort());
-        byte[] dataIn = new byte[1024];
-        DatagramPacket packIn = new DatagramPacket(dataIn, dataIn.length);
-        cont.receive(packIn);
-        try (ObjectInputStream iStream = new ObjectInputStream(new ByteArrayInputStream(packIn.getData()))) {
-            return (Game) iStream.readObject();
-        }
+        Game res;
+        ServerSocket temp = new ServerSocket(client.getLocalPort()+1);
+        out.println("READY");
+        out.flush();
+        Socket cont = temp.accept();
+
+        ObjectInputStream in = new ObjectInputStream(cont.getInputStream());
+        res =  (Game) in.readObject();
+        in.close();
+        cont.close();
+        temp.close();
+        return res;
     }
 }

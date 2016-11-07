@@ -716,7 +716,16 @@ public class Board implements Serializable
         return res;
     }
 
+    public void setWhitePieces(ChessPiece[] whitePieces) {
+        this.whitePieces = whitePieces;
+    }
+
+    public void setBlackPieces(ChessPiece[] blackPieces) {
+        this.blackPieces = blackPieces;
+    }
+
     public int moveBlack(ChessPiece.pieces piece, ChessPiece.direction dir, int pieceID, int length)
+
     {
         int res = 0;
         switch (piece)
@@ -1083,5 +1092,13 @@ public class Board implements Serializable
                 result.add(item);
 
         return (ChessPiece[]) result.toArray(input);
+    }
+
+    public ChessPiece[] getWhitePieces() {
+        return whitePieces;
+    }
+
+    public ChessPiece[] getBlackPieces() {
+        return blackPieces;
     }
 }
