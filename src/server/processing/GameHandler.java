@@ -37,10 +37,8 @@ public class GameHandler implements Runnable
         System.out.println("Everything is intialised");
         whitePlayer.setGameClock(gameClock);
         blackPlayer.setGameClock(gameClock);
-        whitePlayer.sendBoard();
-        blackPlayer.sendBoard();
-        whitePlayer.sendClock();
-        blackPlayer.sendClock();
+        whitePlayer.sendGame();
+        blackPlayer.sendGame();
         System.out.println("Everything sent");
     }
 
@@ -57,14 +55,13 @@ public class GameHandler implements Runnable
                 try {
                     whitePlayer.getBoard();
                     blackPlayer.setGameBoard(whitePlayer.getGameBoard());
-                    blackPlayer.sendBoard();
                     long seconds = System.currentTimeMillis() / 1000l;
                     long time = seconds - whiteMove;
                     gameClock.setWhiteTime(gameClock.getWhiteTime() - time);
                     whitePlayer.setGameClock(gameClock);
                     blackPlayer.setGameClock(gameClock);
-                    whitePlayer.sendClock();
-                    blackPlayer.sendClock();
+                    whitePlayer.sendGame();
+                    blackPlayer.sendGame();
                     blackPlayer.notifyTurn();
                     blackMove = System.currentTimeMillis() / 1000l;
                     currentTurn = 1;
@@ -78,14 +75,13 @@ public class GameHandler implements Runnable
                 try {
                     blackPlayer.getBoard();
                     whitePlayer.setGameBoard(blackPlayer.getGameBoard());
-                    whitePlayer.sendBoard();
                     long seconds = System.currentTimeMillis() / 1000l;
                     long time = seconds - whiteMove;
                     gameClock.setWhiteTime(gameClock.getWhiteTime() - time);
                     whitePlayer.setGameClock(gameClock);
                     blackPlayer.setGameClock(gameClock);
-                    whitePlayer.sendClock();
-                    blackPlayer.sendClock();
+                    whitePlayer.sendGame();
+                    blackPlayer.sendGame();
                     whitePlayer.notifyTurn();
                     whiteMove = System.currentTimeMillis() / 1000l;
                     currentTurn = 0;

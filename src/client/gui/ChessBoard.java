@@ -10,6 +10,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
@@ -31,8 +33,6 @@ public class ChessBoard extends JFrame{
     private final JLabel message = new JLabel("Chess Champ is ready to play!");
     private Board gameBoard;
     private Clock gameClock;
-    private ObjectOutputStream objectOut;
-    private ObjectInputStream objectIn;
     private JLabel time;
     private int player; //white is zero black is one
     boolean waitForUser = true;
@@ -45,8 +45,6 @@ public class ChessBoard extends JFrame{
             rOut = client.getOutputStream();
             in = new BufferedReader(new InputStreamReader(rIn));
             out = new PrintWriter(client.getOutputStream());
-            objectOut = new ObjectOutputStream(rOut);
-            objectIn = new ObjectInputStream(rIn);
             String line = in.readLine();
             if (line.equals("TYPE WHITE"))
             {
@@ -55,8 +53,7 @@ public class ChessBoard extends JFrame{
             {
                 player = 1;
             }
-            getBoard();
-            getClock();
+            getGame();
             initializeGui();
             gameHandler();
         }catch (SocketException e) {
@@ -170,16 +167,13 @@ public class ChessBoard extends JFrame{
                         }
                     };
                 }
-            } else if (line.equals("SEND CLOCK"))
+            } else if (line.equals("SEND GAME"))
             {
-                getClock();
+                getGame();
                 redrawBoard(player);
-            } else if (line.equals("GET BOARD"))
+            } else if (line.equals("GET GAME"))
             {
-                sendBoard();
-            } else if (line.equals("SEND BOARD"))
-            {
-                getBoard();
+                sendGame();
             } else if (line.equals("YOU LOSE"))
             {
                 JOptionPane.showMessageDialog(this, "You lost");
@@ -358,24 +352,50 @@ public class ChessBoard extends JFrame{
         }
     }
 
-    public void sendBoard() throws IOException
+    public void getGame() throws IOException, ClassNotFoundException
     {
-        objectOut.writeObject(gameBoard);
-        objectOut.flush();
+        out.println("GET GAME");
+        out.flush();
+        Game temp = getObject();
+        gameBoard = temp.getBoard();
+        gameClock = temp.getClock();
     }
 
-    public void getBoard() throws IOException, ClassNotFoundException
+
+    public void sendGame() throws IOException
     {
-        gameBoard = (Board) objectIn.readObject();
+        out.println("SEND GAME");
+        out.flush();
+        sendObject(new Game(gameBoard, gameClock));
     }
 
-    public void getClock() throws IOException, ClassNotFoundException
-    {
-        gameClock = (Clock) objectIn.readObject();
-    }
 
     private void setUserWait(boolean v)
     {
         waitForUser = v;
+    }
+
+    public void sendObject(Game obj) throws IOException
+    {
+        DatagramSocket server = new DatagramSocket();
+        byte[] dataOut;
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        ObjectOutput oo = new ObjectOutputStream(output);
+        oo.writeObject(obj);
+        oo.close();
+        dataOut = output.toByteArray();
+        System.out.println(output.size());
+        DatagramPacket packOut = new DatagramPacket(dataOut, dataOut.length, client.getInetAddress(), client.getPort());
+        server.send(packOut);
+    }
+    public Game getObject() throws IOException, ClassNotFoundException
+    {
+        DatagramSocket cont = new DatagramSocket(client.getLocalPort());
+        byte[] dataIn = new byte[1024];
+        DatagramPacket packIn = new DatagramPacket(dataIn, dataIn.length);
+        cont.receive(packIn);
+        try (ObjectInputStream iStream = new ObjectInputStream(new ByteArrayInputStream(packIn.getData()))) {
+            return (Game) iStream.readObject();
+        }
     }
 }

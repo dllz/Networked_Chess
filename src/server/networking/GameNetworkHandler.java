@@ -2,8 +2,11 @@ package server.networking;
 
 import general.models.Board;
 import general.models.Clock;
+import general.models.Game;
 
 import java.io.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.Socket;
 
 /**
@@ -53,22 +56,25 @@ public class GameNetworkHandler
         }
     }
 
-    public void sendBoard() throws IOException
+
+    public Game getGame() throws IOException, ClassNotFoundException
     {
-        out.println("SEND BOARD");
+        out.println("GET GAME");
         out.flush();
+        Game temp = getObject();
+        return temp;
     }
 
     public void getBoard() throws IOException, ClassNotFoundException
     {
-        out.println("GET BOARD");
-        out.flush();
+        gameBoard = getGame().getBoard();
     }
 
-    public void sendClock() throws IOException
+    public void sendGame() throws IOException
     {
-        out.println("SEND CLOCK");
+        out.println("SEND GAME");
         out.flush();
+        sendObject(new Game(gameBoard, gameClock));
     }
 
     public void setGameClock(Clock gameClock) {
@@ -88,5 +94,29 @@ public class GameNetworkHandler
 
     public void setGameBoard(Board gameBoard) {
         this.gameBoard = gameBoard;
+    }
+
+    public void sendObject(Game obj) throws IOException
+    {
+        DatagramSocket server = new DatagramSocket();
+        byte[] dataOut;
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        ObjectOutput oo = new ObjectOutputStream(output);
+        oo.writeObject(obj);
+        oo.close();
+        dataOut = output.toByteArray();
+        System.out.println(output.size());
+        DatagramPacket packOut = new DatagramPacket(dataOut, dataOut.length, connect.getInetAddress(), connect.getPort());
+        server.send(packOut);
+    }
+    public Game getObject() throws IOException, ClassNotFoundException
+    {
+        DatagramSocket client = new DatagramSocket(7683);
+        byte[] dataIn = new byte[1024];
+        DatagramPacket packIn = new DatagramPacket(dataIn, dataIn.length);
+        client.receive(packIn);
+        try (ObjectInputStream iStream = new ObjectInputStream(new ByteArrayInputStream(packIn.getData()))) {
+            return (Game) iStream.readObject();
+        }
     }
 }
