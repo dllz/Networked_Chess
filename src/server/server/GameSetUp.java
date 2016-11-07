@@ -12,8 +12,7 @@ import java.util.ArrayList;
  */
 public class GameSetUp
 {
-    static ArrayList<Player> client = new ArrayList<>();
-    static ArrayList<GameHandler> liveGames = new ArrayList<>();
+    static ArrayList<Player> client = new ArrayList<>();;
 
 
     public static boolean addPlayer(Socket s, String yName, String oppName) {
@@ -22,8 +21,8 @@ public class GameSetUp
 
             if(client.get(i).getOppName().equals(yName)){
                 try {
-                    liveGames.add(new GameHandler(client.get(i).getSocket(), s));
-                    liveGames.get(liveGames.size()-1).run();
+                    Runnable game = new GameHandler(client.get(i).getSocket(), s);
+                    game.run();
                     client.remove(i);
                     System.out.println("Players Matched");
                 } catch (IOException e) {
@@ -41,4 +40,14 @@ public class GameSetUp
     }
 
 
+    public static void removePlayer(Socket connect)
+    {
+        for(int i = 0; i < client.size(); i++){
+
+            if(client.get(i).getSocket().equals(connect)){
+                client.remove(i);
+                System.out.println("Disconnected Player removed");
+            }
+        }
+    }
 }

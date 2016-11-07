@@ -39,6 +39,7 @@ public class TCPForwarder implements Runnable
             out.flush();
         } catch (IOException e) {
             System.out.println("Client Disconnected");
+            GameSetUp.removePlayer(connect);
             Thread.yield();
         }
 
